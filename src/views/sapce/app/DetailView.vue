@@ -44,6 +44,7 @@ const send = async() => {
 
 </script>
 <template>
+  <!-- 最外层容器，高度撑满整个浏览器屏幕 -->
   <div class="min-h-screen">
     <!-- 顶部导航 -->
     <header class="flex h-[74px] items-center border-b border-gray-200 bg-gray-100 px-4">
@@ -69,57 +70,78 @@ const send = async() => {
         >
           调试与预览
         </header>
-        <!--调试对话界面-->
+        <!-- 调试对话界面 -->
         <div class="h-full min-h-0 overflow-x-hidden overflow-y-scroll px-6 py-7 scrollbar-w-none">
-          <!--人类消息-->
-          <div class="mb-6 flex flex-col gap-2" v-for="message in messages" :key="message.content">
-            <!--头像-->
+          <!-- 人类消息 -->
+          <div class="mb-6 flex flex-row gap-2" v-for="message in messages" :key="message.content">
+            <!-- 头像 -->
             <a-avatar
-            v-if="message.role === 'human'"
-            :style="{backgroundColor:'#3370ff'}"
-            class="flex-shrink-0"
-            :size="30">
-            幕
+              v-if="message.role === 'human'"
+              :style="{ backgroundColor: '#3370ff' }"
+              class="flex-shrink-0"
+              :size="30"
+            >
+              慕
             </a-avatar>
             <a-avatar
-            v-else
-            :style="{backgroundColor:'#00d0b6'}"
-            class="flex-shrink-0"
-            :size="30">
-            <icon-apps/>
+              v-else
+              :style="{ backgroundColor: '#00d0b6' }"
+              class="flex-shrink-0"
+              :size="30"
+            >
+              <icon-apps />
             </a-avatar>
             <!-- 实际消息 -->
             <div class="flex flex-col gap-2">
               <div class="font-semibold text-gray-700">
-                {{ message.role === 'human' ? '幕小课' : 'ChatGPT聊天机器人' }}
+                {{ message.role === 'human' ? '慕小课' : 'ChatGPT聊天机器人' }}
               </div>
               <div
+                v-if="message.role === 'human'"
                 class="max-w-max rounded-2xl border border-blue-800 bg-blue-700 px-4 py-3 leading-5 text-white"
               >
-                {{ message.content}}
+                {{ message.content }}
+              </div>
+              <div
+                v-else
+                class="max-w-max rounded-2xl border border-gray-200 bg-gray-100 px-4 py-3 leading-5 text-gray-900"
+              >
+                {{ message.content }}
+              </div>
+            </div>
+          </div>
+          <!-- 没有数据时 -->
+          <div
+            v-if="!messages.length"
+            class="mt-[200px] flex flex-col items-center justify-center gap-2"
+          >
+            <a-avatar :size="70" shape="square" :style="{ backgroundColor: '#00d0b6' }">
+              <icon-apps />
+            </a-avatar>
+            <div class="text-2xl font-semibold text-gray-900">ChatGPT聊天机器人</div>
+          </div>
+          <!-- AI加载状态 -->
+          <div v-if="isLoading" class="mb-6 flex flex-row gap-2">
+            <!-- 头像 -->
+            <a-avatar :style="{ backgroundColor: '#00d0b6' }" class="flex-shrink-0" :size="30">
+              <icon-apps />
+            </a-avatar>
+            <!-- 实际消息 -->
+            <div class="flex flex-col gap-2">
+              <div class="font-semibold text-gray-700">ChatGPT聊天机器人</div>
+              <div
+                class="max-w-max rounded-2xl border border-gray-200 bg-gray-100 px-4 py-3 leading-5 text-gray-900"
+              >
+                <icon-loading />
               </div>
             </div>
           </div>
         </div>
-        <!--没有数据时-->
-        <div class="mt-[200px] flex flex-col items-center justify-center gap-2">
-          <a-avatar :style="{ backgroundColor: '#00d0b6' }" class="flex-shrink-0" :size="30">
-            <icon-apps/>
-          </a-avatar>
-          <!--实际消息-->
-          <div class=" flex flex-col gap-2">
-            <div class="font-semibold text-gray-700">ChatGPT聊天机器人</div>
-            <div class="max-w-max rounded-2xl border border-gray-200 bg-gray-100 px-4 py-3 leading-5 text-gray-100">
-              <icon-loading/>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--调试对话输入框-->
-      <div class="flex w-full flex-shrink-0 flex-col">
-        <!--顶部输入框-->
-        <div class="flex items-center gap-4 pc-6">
-          <!-- 清除按钮 -->
+        <!-- 调试对话输入框 -->
+        <div class="flex w-full flex-shrink-0 flex-col">
+          <!-- 顶部输入框 -->
+          <div class="flex items-center gap-4 px-6">
+            <!-- 清除按钮 -->
             <a-button class="flex-shrink-0" type="text" shape="circle" @click="clearMessages">
               <template #icon>
                 <icon-empty size="16" :style="{ color: '#374151' }" />
@@ -149,7 +171,7 @@ const send = async() => {
         </div>
       </div>
     </div>
-
+  </div>
 </template>
 
 <style scoped></style>

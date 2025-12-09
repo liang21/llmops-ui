@@ -9,6 +9,8 @@ import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 // configureVueProject({ scriptLangs: ['ts', 'tsx'] })
 // More info at https://github.com/vuejs/eslint-config-typescript/#advanced-setup
 
+require('@rushstack/eslint-patch/modern-module-resolution')
+
 export default defineConfigWithVueTs(
   {
     name: 'app/files-to-lint',

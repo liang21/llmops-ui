@@ -1,4 +1,4 @@
-import { apiPrefix, httpCode } from '@/config'
+import { apiPrefix,httpCode } from '@/config'
 import { Message } from '@arco-design/web-vue'
 import router from '@/router'
 

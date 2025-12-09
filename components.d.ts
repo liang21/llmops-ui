@@ -14,6 +14,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AAvatar: typeof import('@arco-design/web-vue')['Avatar']
     AButton: typeof import('@arco-design/web-vue')['Button']
+    Components: typeof import('./src/components/index.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
@@ -31,6 +32,7 @@ declare module 'vue' {
 declare global {
   const AAvatar: typeof import('@arco-design/web-vue')['Avatar']
   const AButton: typeof import('@arco-design/web-vue')['Button']
+  const Components: typeof import('./src/components/index.vue')['default']
   const HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
   const IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
   const IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']

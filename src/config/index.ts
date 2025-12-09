@@ -1,4 +1,4 @@
-const apiPrefix: string = 'http://localhost:5000'
+export const apiPrefix: string = 'http://localhost:5000'
 
 // 业务状态码
 export const httpCode = {
@@ -10,4 +10,3 @@ export const httpCode = {
   validateError: 'validate_error',
 }
 
-export default {apiPrefix,httpCode};
