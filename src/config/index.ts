@@ -10,4 +10,4 @@ export const httpCode = {
   validateError: 'validate_error',
 }
 
-export default apiPrefix, httpCode
+export default {apiPrefix,httpCode};
