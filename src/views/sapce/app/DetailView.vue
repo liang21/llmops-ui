@@ -46,41 +46,43 @@ const send = async() => {
 <template>
   <div class="min-h-screen">
     <!-- 顶部导航 -->
-    <header class="flex items-center h-[74px] bg-gray-100 border-b border-gray-200 px-4">
+    <header class="flex h-[74px] items-center border-b border-gray-200 bg-gray-100 px-4">
       顶部导航
     </header>
     <!-- 底部内容区 -->
-    <div class="flex flex-row h-[calc(100vh-74px)]">
+    <div class="flex h-[calc(100vh-74px)] flex-row">
       <!-- 左侧的编排 -->
-      <div class="w-2/3 bg-gray-50 h-full">
-        <header class="flex items-center h-16 border-b border-gray-200 px-7 text-xl text-gray-700">
+      <div class="h-full w-2/3 bg-gray-50">
+        <header class="flex h-16 items-center border-b border-gray-200 px-7 text-xl text-gray-700">
           应用编排
         </header>
-        <div class="flex flex-row h-[calc(100%-64px)]">
+        <div class="flex h-[calc(100%-64px)] flex-row">
           <div class="flex-1 border-r border-gray-200 p-6">人设与回复逻辑</div>
           <div class="flex-1 p-6">应用能力</div>
         </div>
       </div>
       <!-- 右侧调试与预览 -->
-      <div class="flex flex-col w-1/3 bg-white h-full">
+      <div class="flex h-full w-1/3 flex-col bg-white">
         <!-- 调试与预览 -->
         <header
-          class="flex flex-shrink-0 items-center h-16 px-4 text-xl bg-white border-b border-gray-200 shadow-sm"
+          class="flex h-16 flex-shrink-0 items-center border-b border-gray-200 bg-white px-4 text-xl shadow-sm"
         >
           调试与预览
         </header>
         <!--调试对话界面-->
-        <div class="h-full min-h-0 px-6 py-7 overflow-x-hidden overflow-y-scroll scrollbar-w-none">
+        <div class="h-full min-h-0 overflow-x-hidden overflow-y-scroll px-6 py-7 scrollbar-w-none">
           <!--人类消息-->
-          <div class="flex flex-col gap-2 mb-6">
+          <div class="mb-6 flex flex-col gap-2" v-for="message in messages" :key="message.content">
             <!--头像-->
             <a-avatar
+            v-if="message.role === 'human'"
             :style="{backgroundColor:'#3370ff'}"
             class="flex-shrink-0"
             :size="30">
             幕
             </a-avatar>
             <a-avatar
+            v-else
             :style="{backgroundColor:'#00d0b6'}"
             class="flex-shrink-0"
             :size="30">
@@ -88,12 +90,13 @@ const send = async() => {
             </a-avatar>
             <!-- 实际消息 -->
             <div class="flex flex-col gap-2">
-              <div class="font-semibold text-gray-700">ChatGPT聊天记录</div>
+              <div class="font-semibold text-gray-700">
+                {{ message.role === 'human' ? '幕小课' : 'ChatGPT聊天机器人' }}
+              </div>
               <div
-                class="max-w-max bg-blue-700 text-white border border-blue-800 px-4 py-3 rounded-2xl leading-5"
+                class="max-w-max rounded-2xl border border-blue-800 bg-blue-700 px-4 py-3 leading-5 text-white"
               >
-                LLM 即 large language
-                model，即大型语言模型,是一种基于深度学习的自然语言处理模型,具有很高的语言理解和生成能力,能够处理长文本信息。
+                {{ message.content}}
               </div>
             </div>
           </div>
@@ -106,16 +109,16 @@ const send = async() => {
           <!--实际消息-->
           <div class=" flex flex-col gap-2">
             <div class="font-semibold text-gray-700">ChatGPT聊天机器人</div>
-            <div class="max-w-max bg-gray-100 text-gray-100 border border-gray-200 px-4 py-3 rounded-2xl leading-5">
+            <div class="max-w-max rounded-2xl border border-gray-200 bg-gray-100 px-4 py-3 leading-5 text-gray-100">
               <icon-loading/>
             </div>
           </div>
         </div>
       </div>
       <!--调试对话输入框-->
-      <div class="w-full flex-shrink-0 flex flex-col">
+      <div class="flex w-full flex-shrink-0 flex-col">
         <!--顶部输入框-->
-        <div class="pc-6 flex items-center gap-4">
+        <div class="flex items-center gap-4 pc-6">
           <!-- 清除按钮 -->
             <a-button class="flex-shrink-0" type="text" shape="circle" @click="clearMessages">
               <template #icon>
@@ -124,7 +127,7 @@ const send = async() => {
             </a-button>
             <!-- 输入框组件 -->
             <div
-              class="h-[50px] flex items-center gap-2 px-4 flex-1 border border-gray-200 rounded-full"
+              class="flex h-[50px] flex-1 items-center gap-2 rounded-full border border-gray-200 px-4"
             >
               <input type="text" class="flex-1 outline-0" v-model="query" @keyup.enter="send" />
               <a-button type="text" shape="circle">
@@ -140,7 +143,7 @@ const send = async() => {
             </div>
           </div>
           <!-- 底部提示文字 -->
-          <div class="text-center text-gray-500 text-xs py-4">
+          <div class="py-4 text-center text-xs text-gray-500">
             内容由AI生成，无法确保真实准确，仅供参考。
           </div>
         </div>
