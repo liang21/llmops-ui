@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import isLogin from '@/utils/auth.ts'
-import DetailView from '@/views/sapce/app/detail/DetailView.vue'
+import DetailView from '@/views/sapce/app/DetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
