@@ -1,4 +1,48 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { debugApp } from '@/services/app';
+import { Message } from '@arco-design/web-vue';
+import { ref } from 'vue';
+import { useRoute } from 'vue-router';
+
+
+const query = ref('')
+const messages = ref<any[]>([])
+const isLoading = ref(false)
+const route = useRoute()
+
+const clearMessages = () => {
+  messages.value = []
+}
+
+const send = async() => {
+  if(!query.value){
+    Message.error('用户提问不能为空')
+    return
+  }
+  if(isLoading.value){
+    Message.warning('上一次回复还未结束，请稍等')
+    return
+  }
+  try{
+    const humanQuery = query.value
+    messages.value.push({
+      role: 'human',
+      content: humanQuery,
+    })
+    query.value = ''
+    isLoading.value = true
+    const response = await debugApp(route.params.app_id as string,humanQuery)
+    const content = response.data.content
+    messages.value.push({
+      role: 'ai',
+      content: content,
+    })
+  }finally{
+    isLoading.value = false
+  }
+}
+
+</script>
 <template>
   <div class="min-h-screen">
     <!-- 顶部导航 -->
